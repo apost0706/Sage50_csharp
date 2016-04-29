@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -7,12 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Sage.Peachtree.API;
 using Sage.Peachtree.API.Collections.Generic;
+using Sage.Peachtree.API.Exceptions;
 
 namespace writeback
 {
     class Program
     {
-        static void Message(string msg, ConsoleColor Color = ConsoleColor.Red, bool Terminate = false)
+        static void Message(string msg, ConsoleColor Color = ConsoleColor.Red, bool Terminate = true)
         {
             ConsoleColor existing = Console.ForegroundColor;
             Console.ForegroundColor = Color;
@@ -24,8 +26,7 @@ namespace writeback
 
         static void Main(string[] args)
         {
-            string devToken = "YOUR DEV TOKEN GOES HERE";
-
+            string devToken = ConfigurationManager.AppSettings["applicationIdentifier"];
             var resolver = Assembly.LoadWithPartialName("Sage.Peachtree.API.Resolver");
             var api = Assembly.LoadWithPartialName("Sage.Peachtree.API");
 
@@ -39,7 +40,14 @@ namespace writeback
             var session = new PeachtreeSession();
             try
             {
-                session.Begin(devToken);
+                try
+                {
+                    session.Begin(devToken);
+                }
+                catch (InvalidApplicationIdentifierException e)
+                {
+                    Message("Put a valid application identifier into the app configuration file.");
+                }
 
                 var companyList = session.CompanyList();
                 foreach (var item in companyList)
@@ -108,8 +116,8 @@ namespace writeback
                         Console.WriteLine("Starting performance counter");
                         enumerator.Current.Save();
                         w.Stop();
-                        Message(string.Format("Elapsed msec: {0}", w.Elapsed.TotalMilliseconds), ConsoleColor.Green);
-                        Message("Completed", ConsoleColor.Green);
+                        Message(string.Format("Elapsed msec: {0}", w.Elapsed.TotalMilliseconds), ConsoleColor.Green, false);
+                        Message("Completed", ConsoleColor.Green, false);
                     }
                     finally
                     {
