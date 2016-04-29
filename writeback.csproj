@@ -52,6 +52,15 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>testKey.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Sage.Peachtree.API, Version=2016.2.0.184, Culture=neutral, PublicKeyToken=d06c16dde04d83e4, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -78,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="testKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Readme.txt" />

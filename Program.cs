@@ -21,7 +21,11 @@ namespace writeback
             Console.WriteLine("ERROR: " + msg);
             Console.ForegroundColor = existing;
             if (Terminate)
+            {
+                Console.WriteLine("Press any key to quit.");
+                Console.ReadKey();
                 Environment.Exit(1);
+            }
         }
 
         static void Main(string[] args)
@@ -117,7 +121,7 @@ namespace writeback
                         enumerator.Current.Save();
                         w.Stop();
                         Message(string.Format("Elapsed msec: {0}", w.Elapsed.TotalMilliseconds), ConsoleColor.Green, false);
-                        Message("Completed", ConsoleColor.Green, false);
+                        Message("Completed", ConsoleColor.Green, true);
                     }
                     finally
                     {
