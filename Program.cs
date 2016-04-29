@@ -114,7 +114,18 @@ namespace writeback
 
                         enumerator.Current.CustomerNote = "Test Customer Note";
                         enumerator.Current.InternalNote = "Test Internal Note";
-                        enumerator.Current.FreightAmount = 199.99M;
+
+                        Console.WriteLine("Editing the freight (Y[y]/N[n], Y if empty)?");
+                        string strFreightEdit = Console.ReadLine();
+                        if (string.IsNullOrWhiteSpace(strFreightEdit))
+                            strFreightEdit = "Y";
+                        bool freightEdit = string.Equals(strFreightEdit, "Y", StringComparison.CurrentCultureIgnoreCase);
+
+                        Console.WriteLine("Editing freight: {0}", freightEdit.ToString());
+                        if (freightEdit)
+                        {
+                            enumerator.Current.FreightAmount = 199.99M;
+                        }
 
                         Stopwatch w = Stopwatch.StartNew();
                         Console.WriteLine("Starting performance counter");
